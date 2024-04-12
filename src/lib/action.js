@@ -83,8 +83,19 @@ export const HandleLogout=async()=>{
     "use server"
     await signOut()
 }
+// export const HandleGoogleLogin=async()=>{
+//     "use server"
+//     const callbackUrl=`${process.env.AUTH_URL}/callback/google`
+//     // console.log(callbackUrl)
+//     await signIn('google',{callbackUrl})
+// }
+// export const HandleGoogleLogout=async()=>{
+//     "use server"
+//     await signOut()
+// }
 export const register=async(PreviousState,formData)=>{
     const{username,email,password,passwordRepeat,img}=Object.fromEntries(formData)
+
     if(password!==passwordRepeat){
         return {error:"Password don't Match"}
     }

@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
+import GoogleProvider from "next-auth/providers/google";
 import { connectToDb } from "./utils"
 import { User } from "./Modles"
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -23,6 +24,11 @@ export const { handlers:{GET,POST}, auth,signIn,signOut } = NextAuth({
     providers: 
      [ GitHub({clientId:process.env.GITHUB_ID,
         clientSecret:process.env.GITHUB_SECRET}),
+        // GoogleProvider({
+        //     clientId:process.env.AUTH_GOOGLE_ID,
+        //     clientSecret:process.env.AUTH_GOOGLE_SECRET,
+        //     // usePKCE:true,
+        // }),
         CredentialsProvider({
             async authorize(credentials){
                 try{
@@ -35,7 +41,7 @@ export const { handlers:{GET,POST}, auth,signIn,signOut } = NextAuth({
         })
     ],
     callbacks:{
-        async signIn({user,account,profile}){
+        async signIn({account,profile,}){
             if(account.provider==='github'){
                 connectToDb()
                 try{
@@ -44,7 +50,7 @@ export const { handlers:{GET,POST}, auth,signIn,signOut } = NextAuth({
                         const newUser=new User({
                             username:profile.login,
                             email:profile.email,
-                            image:profile.avatar_url
+                            img:profile.avatar_url
                         })
                         await newUser.save()
                     }
@@ -55,6 +61,28 @@ export const { handlers:{GET,POST}, auth,signIn,signOut } = NextAuth({
             }
             return true
         },
+        // async signIn({user,account,profile,}){
+        //     if(account.provider==='google'){
+        //         console.log(user,account,profile)
+        //         connectToDb()
+        //         try{
+        //             const user=await User.findOne({email:profile.email})
+        //             if(!user){
+        //                 const newUser=new User({
+        //                     username:profile.login,
+        //                     email:profile.email,
+        //                     img:profile.avatar_url
+        //                 })
+        //                 await newUser.save()
+        //             }
+        //         }catch(err){
+        //             console.log(err)
+        //             return false
+        //         }
+        //     }
+        //     return true
+        // },
+
         ...authConfig.callbacks
     },
 

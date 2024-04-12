@@ -5,7 +5,7 @@ export const metadata = {
   description: 'Next.js starter app about description',
 }
 const AboutPage = ({searchParams}) => {
-  console.log(searchParams)
+  // console.log(searchParams,'why its working or not')
   return (
    <div className={styles.container}>
     <div className={styles.textContainer}>

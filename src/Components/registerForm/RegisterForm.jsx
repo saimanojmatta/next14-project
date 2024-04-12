@@ -17,8 +17,9 @@ const RegisterForm = () => {
         <input type="email"  placeholder="email"name="email"/>
         <input type="password"  placeholder="password"name="password"/>
         <input type="password"  placeholder="password again"name="passwordRepeat"/>
+        <input type="text"  placeholder="img(Optional)"name="img"/>
         <button>Register</button>
-        {state?.error}
+        <h4 className={styles.error}> {state?.error}</h4>
         <Link href='/login'>
              Have an Account ? <b>Login</b>
         </Link>
